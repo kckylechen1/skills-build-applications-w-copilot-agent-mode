@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,11 +26,16 @@ SECRET_KEY = "django-insecure-o--()9nn*)leibjbumcr=*1v(=wz_)tunrs+98x865w75vg*c4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Dynamic ALLOWED_HOSTS configuration
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'fantastic-couscous-gj9j9pxv7j7cvp5r-8000.app.github.dev'
 ]
+
+# Add codespace URL if running in GitHub Codespaces
+codespace_name = os.environ.get('CODESPACE_NAME')
+if codespace_name:
+    ALLOWED_HOSTS.append(f'{codespace_name}-8000.app.github.dev')
 
 
 # Application definition
@@ -129,6 +135,18 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS settings - Dynamic configuration
+if codespace_name:
+    CORS_ALLOWED_ORIGINS = [
+        f'https://{codespace_name}-3000.app.github.dev',  # React frontend
+        f'https://{codespace_name}-8000.app.github.dev',  # Django backend
+        'http://localhost:3000',
+        'http://localhost:8000',
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        'http://localhost:3000',
+        'http://localhost:8000',
+    ]
+
 CORS_ALLOW_CREDENTIALS = True
