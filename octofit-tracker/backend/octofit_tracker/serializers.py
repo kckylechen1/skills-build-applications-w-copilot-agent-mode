@@ -4,7 +4,7 @@ from .models import User, Team, Activity, Leaderboard, Workout, UserWorkout
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['_id', 'username', 'email', 'first_name', 'last_name', 'date_joined', 'is_active']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'date_joined', 'is_active']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -23,7 +23,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ['_id', 'name', 'description', 'created_by', 'members', 'member_count', 'created_at']
+        fields = ['id', 'name', 'description', 'created_by', 'members', 'member_count', 'created_at']
 
     def get_member_count(self, obj):
         return obj.members.count()
@@ -35,7 +35,7 @@ class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
         fields = [
-            '_id', 'activity_id', 'user', 'activity_type', 'activity_type_display',
+            'id', 'activity_id', 'user', 'activity_type', 'activity_type_display',
             'duration_minutes', 'calories_burned', 'distance_km', 'notes', 'date_logged'
         ]
         read_only_fields = ['activity_id', 'date_logged']
@@ -53,7 +53,7 @@ class LeaderboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leaderboard
         fields = [
-            '_id', 'leaderboard_id', 'user', 'team', 'total_points',
+            'id', 'leaderboard_id', 'user', 'team', 'total_points',
             'total_activities', 'total_calories', 'total_distance', 'rank', 'last_updated'
         ]
         read_only_fields = ['leaderboard_id', 'last_updated']
@@ -65,7 +65,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
         fields = [
-            '_id', 'workout_id', 'name', 'description', 'difficulty_level',
+            'id', 'workout_id', 'name', 'description', 'difficulty_level',
             'difficulty_level_display', 'duration_minutes', 'calories_target',
             'exercises', 'created_by', 'is_public', 'created_at'
         ]
@@ -85,7 +85,7 @@ class UserWorkoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserWorkout
         fields = [
-            '_id', 'user', 'workout', 'workout_id', 'completed_at',
+            'id', 'user', 'workout', 'workout_id', 'completed_at',
             'actual_duration', 'calories_burned', 'rating', 'notes'
         ]
         read_only_fields = ['completed_at']

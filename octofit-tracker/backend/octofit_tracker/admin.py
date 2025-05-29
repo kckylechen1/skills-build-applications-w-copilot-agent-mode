@@ -8,7 +8,7 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ('date_joined',)
     search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('-date_joined',)
-    readonly_fields = ('_id', 'date_joined')
+    readonly_fields = ('id', 'date_joined')
     
     fieldsets = (
         ('Basic Information', {
@@ -18,7 +18,7 @@ class UserAdmin(admin.ModelAdmin):
             'fields': ('is_active',)
         }),
         ('System Information', {
-            'fields': ('_id', 'date_joined'),
+            'fields': ('id', 'date_joined'),
             'classes': ('collapse',)
         })
     )
@@ -30,7 +30,7 @@ class TeamAdmin(admin.ModelAdmin):
     list_filter = ('created_at',)
     search_fields = ('name', 'description', 'created_by__username')
     ordering = ('-created_at',)
-    readonly_fields = ('_id', 'created_at')
+    readonly_fields = ('id', 'created_at')
     filter_horizontal = ('members',)
     
     def member_count(self, obj):
@@ -46,7 +46,7 @@ class TeamAdmin(admin.ModelAdmin):
             'fields': ('members',)
         }),
         ('System Information', {
-            'fields': ('_id', 'created_at'),
+            'fields': ('id', 'created_at'),
             'classes': ('collapse',)
         })
     )
@@ -58,7 +58,7 @@ class ActivityAdmin(admin.ModelAdmin):
     list_filter = ('activity_type', 'date_logged')
     search_fields = ('user__username', 'activity_type', 'notes')
     ordering = ('-date_logged',)
-    readonly_fields = ('_id', 'activity_id', 'date_logged')
+    readonly_fields = ('id', 'activity_id', 'date_logged')
     
     fieldsets = (
         ('Activity Information', {
@@ -68,7 +68,7 @@ class ActivityAdmin(admin.ModelAdmin):
             'fields': ('notes',)
         }),
         ('System Information', {
-            'fields': ('_id', 'activity_id', 'date_logged'),
+            'fields': ('id', 'activity_id', 'date_logged'),
             'classes': ('collapse',)
         })
     )
@@ -80,7 +80,7 @@ class LeaderboardAdmin(admin.ModelAdmin):
     list_filter = ('team', 'last_updated')
     search_fields = ('user__username', 'team__name')
     ordering = ('-total_points',)
-    readonly_fields = ('_id', 'leaderboard_id', 'last_updated')
+    readonly_fields = ('id', 'leaderboard_id', 'last_updated')
     
     fieldsets = (
         ('User Information', {
@@ -90,7 +90,7 @@ class LeaderboardAdmin(admin.ModelAdmin):
             'fields': ('total_points', 'total_activities', 'total_calories', 'total_distance', 'rank')
         }),
         ('System Information', {
-            'fields': ('_id', 'leaderboard_id', 'last_updated'),
+            'fields': ('id', 'leaderboard_id', 'last_updated'),
             'classes': ('collapse',)
         })
     )
@@ -102,7 +102,7 @@ class WorkoutAdmin(admin.ModelAdmin):
     list_filter = ('difficulty_level', 'is_public', 'created_at')
     search_fields = ('name', 'description', 'created_by__username')
     ordering = ('-created_at',)
-    readonly_fields = ('_id', 'workout_id', 'created_at')
+    readonly_fields = ('id', 'workout_id', 'created_at')
     
     fieldsets = (
         ('Workout Information', {
@@ -115,7 +115,7 @@ class WorkoutAdmin(admin.ModelAdmin):
             'fields': ('created_by', 'is_public')
         }),
         ('System Information', {
-            'fields': ('_id', 'workout_id', 'created_at'),
+            'fields': ('id', 'workout_id', 'created_at'),
             'classes': ('collapse',)
         })
     )
@@ -127,7 +127,7 @@ class UserWorkoutAdmin(admin.ModelAdmin):
     list_filter = ('rating', 'completed_at')
     search_fields = ('user__username', 'workout__name', 'notes')
     ordering = ('-completed_at',)
-    readonly_fields = ('_id', 'completed_at')
+    readonly_fields = ('id', 'completed_at')
     
     fieldsets = (
         ('Workout Completion', {
@@ -140,7 +140,7 @@ class UserWorkoutAdmin(admin.ModelAdmin):
             'fields': ('notes',)
         }),
         ('System Information', {
-            'fields': ('_id',),
+            'fields': ('id',),
             'classes': ('collapse',)
         })
     )

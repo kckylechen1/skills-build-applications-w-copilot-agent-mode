@@ -1,9 +1,9 @@
-from djongo import models
+from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db import models as django_models
+import uuid
 
 class User(models.Model):
-    _id = models.ObjectIdField()
+    id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
@@ -16,7 +16,7 @@ class User(models.Model):
         db_table = 'users'
 
 class Team(models.Model):
-    _id = models.ObjectIdField()
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_teams')
@@ -37,8 +37,8 @@ class Activity(models.Model):
         ('other', 'Other'),
     ]
     
-    _id = models.ObjectIdField()
-    activity_id = models.CharField(max_length=100, unique=True)
+    id = models.AutoField(primary_key=True)
+    activity_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activities')
     activity_type = models.CharField(max_length=20, choices=ACTIVITY_TYPES)
     duration_minutes = models.IntegerField()
@@ -52,8 +52,8 @@ class Activity(models.Model):
         ordering = ['-date_logged']
 
 class Leaderboard(models.Model):
-    _id = models.ObjectIdField()
-    leaderboard_id = models.CharField(max_length=100, unique=True)
+    id = models.AutoField(primary_key=True)
+    leaderboard_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
     total_points = models.IntegerField(default=0)
@@ -74,8 +74,8 @@ class Workout(models.Model):
         ('advanced', 'Advanced'),
     ]
     
-    _id = models.ObjectIdField()
-    workout_id = models.CharField(max_length=100, unique=True)
+    id = models.AutoField(primary_key=True)
+    workout_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=200)
     description = models.TextField()
     difficulty_level = models.CharField(max_length=20, choices=DIFFICULTY_LEVELS)
@@ -92,7 +92,7 @@ class Workout(models.Model):
 
 class UserWorkout(models.Model):
     """Track user's completed workouts"""
-    _id = models.ObjectIdField()
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='completed_workouts')
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
     completed_at = models.DateTimeField(auto_now_add=True)

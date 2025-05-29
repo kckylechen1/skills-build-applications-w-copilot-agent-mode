@@ -13,9 +13,17 @@ from .serializers import (
 @api_view(['GET'])
 def api_root(request):
     """API root endpoint"""
+    # Get codespace name from environment or use placeholder
+    import os
+    codespace_name = os.environ.get('CODESPACE_NAME', '[REPLACE-THIS-WITH-YOUR-CODESPACE-NAME]')
+    
     return Response({
         'message': 'Welcome to OctoFit Tracker API',
         'version': '1.0',
+        'codespace_url': f'https://{codespace_name}-8000.app.github.dev',
+        'codespace_name': codespace_name,
+        'codespace_name_instructions': 'You can get the codespace name by running the following command in the terminal: echo $CODESPACE_NAME',
+        'local_url': 'http://localhost:8000',
         'endpoints': {
             'users': '/api/users/',
             'teams': '/api/teams/',
