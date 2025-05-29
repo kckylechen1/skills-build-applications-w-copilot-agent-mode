@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { apiService } from '../services/api';
 
+// Codespace Django REST API endpoint: https://example-codespace-name-8000.app.github.dev/api/
+
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
