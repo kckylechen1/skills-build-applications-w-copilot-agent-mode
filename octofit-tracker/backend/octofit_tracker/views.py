@@ -1,8 +1,10 @@
+import os
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from django.db.models import Sum, Count, Avg
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 from .models import User, Team, Activity, Leaderboard, Workout, UserWorkout
 from .serializers import (
     UserSerializer, TeamSerializer, ActivitySerializer,
@@ -12,13 +14,19 @@ from .serializers import (
 
 @api_view(['GET'])
 def api_root(request):
-    """API root endpoint"""
-    # Get codespace name from environment or use placeholder
+    """API root endpoint with dynamic environment detection"""
     import os
-    codespace_name = os.environ.get('CODESPACE_NAME', '[REPLACE-THIS-WITH-YOUR-CODESPACE-NAME]')
+    # Dynamically determine base URL
+    codespace_name = os.environ.get('CODESPACE_NAME')
+    if codespace_name:
+        base_url = f'https://{codespace_name}-8000.app.github.dev'
+    else:
+        base_url = 'http://localhost:8000'
     
     return Response({
-        'message': 'Welcome to OctoFit Tracker API',
+        'status': 'success',
+        'message': 'Welcome to OctoFit API',
+        'baseUrl': base_url,
         'version': '1.0',
         'codespace_url': f'https://{codespace_name}-8000.app.github.dev',
         'codespace_name': codespace_name,
@@ -32,6 +40,14 @@ def api_root(request):
             'workouts': '/api/workouts/',
             'user-workouts': '/api/user-workouts/',
         }
+    })
+
+@api_view(['GET'])
+def health_check(request):
+    """Health check endpoint"""
+    return Response({
+        'status': 'healthy',
+        'message': 'OctoFit API is running'
     })
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -235,3 +251,4 @@ class UserWorkoutViewSet(viewsets.ModelViewSet):
         
         serializer = self.get_serializer(user_workouts, many=True)
         return Response(serializer.data)
+>>>>>>> cbb66a3f88309b415c3cd7ec25b599db44968fd8

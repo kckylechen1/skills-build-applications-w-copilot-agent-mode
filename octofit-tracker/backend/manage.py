@@ -6,7 +6,11 @@ import sys
 
 def main():
     """Run administrative tasks."""
+<<<<<<< HEAD
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "octofit_tracker.settings")
+=======
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'octofit.settings')
+>>>>>>> cbb66a3f88309b415c3cd7ec25b599db44968fd8
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -18,5 +22,9 @@ def main():
     execute_from_command_line(sys.argv)
 
 
+<<<<<<< HEAD
+if __name__ == "__main__":
+=======
 if __name__ == '__main__':
+>>>>>>> cbb66a3f88309b415c3cd7ec25b599db44968fd8
     main()
